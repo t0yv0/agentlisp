@@ -51,8 +51,43 @@ class LetExpr:
     body: "Expr"
 
 
+@dataclass(frozen=True)
+class WriteExpr:
+    """Write primitive form - writes text to output."""
+    expr: "Expr"
+
+
+@dataclass(frozen=True)
+class ReadExpr:
+    """Read primitive form - reads text from input."""
+    pass
+
+
+@dataclass(frozen=True)
+class TellExpr:
+    """Tell primitive form - appends prompt to LLM conversation."""
+    expr: "Expr"
+
+
+@dataclass(frozen=True)
+class AskExpr:
+    """Ask primitive form - poses question to LLM."""
+    expr: "Expr"
+
+
 # Key type representing any expression in the language
-Expr = Union[IntLiteral, StringLiteral, FunctionCall, IfExpr, Variable, LetExpr]
+Expr = Union[
+    IntLiteral,
+    StringLiteral,
+    FunctionCall,
+    IfExpr,
+    Variable,
+    LetExpr,
+    WriteExpr,
+    ReadExpr,
+    TellExpr,
+    AskExpr,
+]
 
 
 @dataclass(frozen=True)

@@ -10,6 +10,10 @@ from ast import (
     Variable,
     LetBinding,
     LetExpr,
+    WriteExpr,
+    ReadExpr,
+    TellExpr,
+    AskExpr,
     FunctionDef,
     Program,
 )
@@ -175,6 +179,30 @@ def parse_expr(sexp: Any) -> Expr:
 
             body = parse_expr(sexp[2])
             return LetExpr(bindings, body)
+
+        # Primitive form: write
+        if head == "write":
+            if len(sexp) != 2:
+                raise ParseError("write requires 1 argument: expression to write")
+            return WriteExpr(parse_expr(sexp[1]))
+
+        # Primitive form: read
+        if head == "read":
+            if len(sexp) != 1:
+                raise ParseError("read takes no arguments")
+            return ReadExpr()
+
+        # Primitive form: tell
+        if head == "tell":
+            if len(sexp) != 2:
+                raise ParseError("tell requires 1 argument: expression to tell")
+            return TellExpr(parse_expr(sexp[1]))
+
+        # Primitive form: ask
+        if head == "ask":
+            if len(sexp) != 2:
+                raise ParseError("ask requires 1 argument: question expression")
+            return AskExpr(parse_expr(sexp[1]))
 
         # Function call
         args = [parse_expr(arg) for arg in sexp[1:]]
