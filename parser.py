@@ -55,27 +55,22 @@ class Tokenizer:
     def read_string(self) -> str:
         """Read a string literal."""
         self.advance()  # Skip opening quote
-        chars: list[str] = []
+        chars: list[str] = ['"']  # Start with opening quote
         while True:
             char = self.peek()
             if char is None:
                 raise ParseError("Unterminated string literal")
             if char == '"':
                 self.advance()
+                chars.append('"')  # Add closing quote
                 break
             if char == "\\":
                 self.advance()
                 next_char = self.advance()
-                if next_char == "n":
-                    chars.append("\n")
-                elif next_char == "t":
-                    chars.append("\t")
-                elif next_char == "\\":
-                    chars.append("\\")
-                elif next_char == '"':
-                    chars.append('"')
-                else:
-                    chars.append(next_char or "")
+                # Store escape sequences as-is so parser can handle them
+                chars.append("\\")
+                if next_char is not None:
+                    chars.append(next_char)
             else:
                 chars.append(char)
                 self.advance()
@@ -128,7 +123,13 @@ def parse_expr(sexp: Any) -> Expr:
     """Parse an s-expression into an Expr."""
     # String literal (already parsed by tokenizer)
     if isinstance(sexp, str) and sexp.startswith('"'):
-        return StringLiteral(sexp[1:-1])
+        # Process escape sequences
+        content = sexp[1:-1]  # Strip quotes
+        content = content.replace("\\n", "\n")
+        content = content.replace("\\t", "\t")
+        content = content.replace("\\\\", "\\")
+        content = content.replace('\\"', '"')
+        return StringLiteral(content)
 
     # Integer literal or variable
     if isinstance(sexp, str):
