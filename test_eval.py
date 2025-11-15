@@ -311,6 +311,7 @@ class TestSystemCalls(unittest.TestCase):
         func = FunctionDef("main", [], read_expr)
         program = Program([func])
         state: State | None = create_initial_state(program)
+        assert state is not None
 
         # Step once should create interop state
         state = step(state)
