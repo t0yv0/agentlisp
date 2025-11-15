@@ -1,3 +1,5 @@
+SLOP WARNING - THIS HAS BEEN ENTIRELY VIBECODED
+
 # AgentLisp - A Program-Guided Chatbot
 
 AgentLisp is a Lisp interpreter where program execution is driven by a chatbot interface. Both you and Claude can advance the program state using a `/run` tool.
