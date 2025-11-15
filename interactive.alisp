@@ -1,0 +1,14 @@
+(defun get-user-name ()
+  (let ((prompt "What is your name?"))
+    (let ((_ (write prompt)))
+      (read))))
+
+(defun greet-user (name)
+  (let ((greeting-prompt "You are a friendly assistant. The user's name is: "))
+    (let ((full-prompt (ask (write greeting-prompt))))
+      (ask name))))
+
+(defun main ()
+  (let ((name (get-user-name)))
+    (let ((greeting (greet-user name)))
+      (write greeting))))

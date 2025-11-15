@@ -1,0 +1,7 @@
+(defun greet-user ()
+  (let ((intro "You are a helpful assistant. Greet the user warmly."))
+    (let ((response (ask intro)))
+      (write response))))
+
+(defun main ()
+  (greet-user))

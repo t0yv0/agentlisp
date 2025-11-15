@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 from typing import Union, Callable
-from ast import (
+from lisp_ast import (
     Expr,
     IntLiteral,
     StringLiteral,

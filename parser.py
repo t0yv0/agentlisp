@@ -1,7 +1,7 @@
 """Parser for the Lisp-like language."""
 
 from typing import Any
-from ast import (
+from lisp_ast import (
     Expr,
     IntLiteral,
     StringLiteral,
